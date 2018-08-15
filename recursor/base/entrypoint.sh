@@ -44,8 +44,6 @@ server:
   minimal-responses: yes${donotquery}
   access-control: 0.0.0.0/0 allow
   do-not-query-localhost: yes
-  log-queries: yes
-  log-replies: yes
 forward-zone:
   name: "."${zones}
 
