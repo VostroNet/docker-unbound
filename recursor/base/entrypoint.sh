@@ -5,10 +5,13 @@ export FORWARD_ZONES=${FORWARD_ZONES:-"1.1.1.1,1.0.0.1"}
 export PORT=${PORT:-"1153"}
 export THREADS=${THREADS:-"4"}
 export VERBOSITY=${VERBOSITY:-"1"}
+export MSG_CACHE_SIZE=${MSG_CACHE_SIZE:-"256m"}
+export RRSET_CACHE_SIZE=${RRSET_CACHE_SIZE:-"512m"}
+export NEG_CACHE_SIZE=${NEG_CACHE_SIZE:-"128m"}
+export KEY_CACHE_SIZE=${KEY_CACHE_SIZE:-"128m"}
 
 IFS=','
 NL=$'\n'
-
 
 zones=""
 
@@ -44,6 +47,10 @@ server:
   minimal-responses: yes${donotquery}
   access-control: 0.0.0.0/0 allow
   do-not-query-localhost: yes
+  msg-cache-size: ${MSG_CACHE_SIZE}
+  rrset-cache-size: ${RRSET_CACHE_SIZE}
+  neg-cache-size: ${NEG_CACHE_SIZE}
+  key-cache-size: ${KEY_CACHE_SIZE}
 forward-zone:
   name: "."${zones}
 
