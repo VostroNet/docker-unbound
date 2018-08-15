@@ -51,5 +51,4 @@ forward-zone:
 
 EOF
 
-cat /etc/unbound/unbound.conf
-unbound -c /etc/unbound/unbound.conf -vvv
+unbound -c /etc/unbound/unbound.conf
