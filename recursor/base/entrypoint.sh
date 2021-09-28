@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export DO_NOT_QUERY=${DO_NOT_QUERY:-""}
 export FORWARD_ZONES=${FORWARD_ZONES:-"1.1.1.1,1.0.0.1"}
@@ -27,6 +27,29 @@ do
   donotquery="${donotquery}${NL}  do-not-query-address: ${donot}";
 done
 
+
+localzones=""
+# echo $LOCAL_ZONES;
+IFS=";"
+ZONEARR=($LOCAL_ZONES)
+# echo "zonearr count: ${#ZONEARR[@]}"
+# echo "zonearr count: $ZONEARR"
+for LOCAL in ${ZONEARR[@]}; do 
+  # echo "local: $LOCAL"
+  IFS="|" 
+  ZONEDATA=($LOCAL)
+  # echo "zonedata0: ${ZONEDATA[0]}"
+  # echo "zonedata1: ${ZONEDATA[1]}"
+  localzone="${NL}  local-zone: \"${ZONEDATA[0]}\" typetransparent"
+  IFS=","
+  for data in ${ZONEDATA[1]};
+  do
+    # echo "data: $data"
+    localzone="${localzone}${NL}    local-data: \"${data}\"";
+  done
+  localzones="${localzones}${localzone}"
+done
+
 cat <<EOF > /etc/unbound/unbound.conf
 server:
   interface: 0.0.0.0
@@ -50,10 +73,11 @@ server:
   msg-cache-size: ${MSG_CACHE_SIZE}
   rrset-cache-size: ${RRSET_CACHE_SIZE}
   neg-cache-size: ${NEG_CACHE_SIZE}
-  key-cache-size: ${KEY_CACHE_SIZE}
+  key-cache-size: ${KEY_CACHE_SIZE}${localzones}
 forward-zone:
   name: "."${zones}
-
 EOF
+
+cat /etc/unbound/unbound.conf
 
 unbound -c /etc/unbound/unbound.conf

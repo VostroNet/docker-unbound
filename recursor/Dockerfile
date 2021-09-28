@@ -1,5 +1,5 @@
-FROM alpine:3.7
-RUN apk add --no-cache unbound
+FROM alpine:3.14
+RUN apk add --no-cache unbound bash
 EXPOSE 53/udp
 EXPOSE 53
 COPY ./base/ /

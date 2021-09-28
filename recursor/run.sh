@@ -1,0 +1,3 @@
+docker run -it --rm -p 1153:1153/udp \
+    -e LOCAL_ZONES="google.com|google.com CNAME forcesafesearch.google.com,www.google.com CNAME forcesafesearch.google.com;google.com.au|google.com.au CNAME forcesafesearch.google.com,www.google.com.au CNAME forcesafesearch.google.com;youtube.com|www.youtube.com CNAME restrict.youtube.com,m.youtube.com CNAME restrict.youtube.com;googleapis.com|youtubei.googleapis.com CNAME restrict.youtube.com,youtube.googleapis.com CNAME restrict.youtube.com;youtube-nocookie.com|www.youtube-nocookie.com CNAME restrict.youtube.com;bing.com|www.bing.com CNAME strict.bing.com" \
+    unbound
